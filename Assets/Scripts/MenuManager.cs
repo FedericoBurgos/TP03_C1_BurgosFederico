@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class MenuManager : MonoBehaviour
 {
     [Header("Paneles")]
@@ -35,6 +36,8 @@ public class MenuManager : MonoBehaviour
      private SpriteRenderer spriteRendererP2;
     void Start()
     {
+        // El juego arranca congelado en el main menu hasta que el jugador selecciona play //
+        Time.timeScale = 0f;
         // Al arrancar, los sliders reflejan la velocidad actual de cada jugador //
         speedSliderP1.value = player1.moveSpeed;
         speedSliderP2.value = player2.moveSpeed;
@@ -65,6 +68,7 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         mainMenuPanel.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     public void OpenSettings()
@@ -135,16 +139,16 @@ public class MenuManager : MonoBehaviour
     }
     public void OnP1HeightChanged(float value)
     {
-        Vector3 escala = player1.transform.localScale;
-        escala.y = value;
-        player1.transform.localScale = escala;
+        Vector3 scale = player1.transform.localScale;
+        scale.y = value;
+        player1.transform.localScale = scale;
     }
 
     public void OnP2HeightChanged(float value)
     {
-        Vector3 escala = player2.transform.localScale;
-        escala.y = value;
-        player2.transform.localScale = escala;
+        Vector3 scale = player2.transform.localScale;
+        scale.y = value;
+        player2.transform.localScale = scale;
     }
 
 

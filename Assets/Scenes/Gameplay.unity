@@ -1832,7 +1832,7 @@ GameObject:
   - component: {fileID: 465958951}
   m_Layer: 3
   m_Name: Ball
-  m_TagString: User Layer
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1849,11 +1849,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85bae5120c687e24ab76a06f2807111e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ball
-  velocidadInicial: 5
-  incrementoPorSegundo: 0.5
-  incrementoPorImpacto: 1
-  limiteSuperior: 4
-  limiteInferior: -4
+  initialSpeed: 5
+  speedIncreasePerSecond: 0.5
+  speedIncreasePerImpact: 1
+  topLimit: 4
+  bottomLimit: -4
+  rightLimit: 9
+  leftLimit: -9
+  impactCooldown: 0.1
 --- !u!212 &465958949
 SpriteRenderer:
   serializedVersion: 2
@@ -1938,7 +1941,7 @@ CircleCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c794e6344900593409d714a4d2fef998, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2949,7 +2952,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 889521782}
   m_Father: {fileID: 1929939385}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3238,12 +3242,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1929939385}
+  m_Father: {fileID: 772244383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1760, y: -1050}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &889521783
 MonoBehaviour:
@@ -3739,10 +3743,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1627779552}
   m_HandleRect: {fileID: 765522567}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 10
+  m_MinValue: 1
+  m_MaxValue: 50
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -3905,7 +3909,7 @@ Transform:
   m_GameObject: {fileID: 1072896251}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.3, z: 0}
+  m_LocalPosition: {x: 0, y: -5.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5432,7 +5436,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 179257615}
   m_Direction: 0
   m_MinValue: 1
-  m_MaxValue: 10
+  m_MaxValue: 50
   m_WholeNumbers: 0
   m_Value: 1
   m_OnValueChanged:
@@ -5718,7 +5722,7 @@ Transform:
   m_GameObject: {fileID: 1591498662}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.3, z: 0}
+  m_LocalPosition: {x: 0, y: 5.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5832,7 +5836,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   moveUp: 119
   moveDown: 115
-  moveSpeed: 6
+  moveSpeed: 30
 --- !u!61 &1601447935
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5904,7 +5908,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!1 &1622368691
 GameObject:
@@ -6724,7 +6728,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 5
 --- !u!61 &1874430990
 BoxCollider2D:
@@ -6786,7 +6790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   moveUp: 273
   moveDown: 274
-  moveSpeed: 6
+  moveSpeed: 30
 --- !u!212 &1874430992
 SpriteRenderer:
   serializedVersion: 2
@@ -7192,7 +7196,6 @@ RectTransform:
   - {fileID: 1443458893}
   - {fileID: 772244383}
   - {fileID: 394578726}
-  - {fileID: 889521782}
   - {fileID: 467376601}
   - {fileID: 4041828}
   m_Father: {fileID: 520330190}

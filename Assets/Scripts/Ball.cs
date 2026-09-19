@@ -2,65 +2,65 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private float velocidadInicial = 5f;
-    [SerializeField] private float incrementoPorSegundo = 0.5f;
-    [SerializeField] private float incrementoPorImpacto = 1f;
-    [SerializeField] private float limiteSuperior = 4f;
-    [SerializeField] private float limiteInferior = -4f;
+    [SerializeField] private float initialSpeed = 5f;
+    [SerializeField] private float speedIncreasePerSecond = 0.5f;
+    [SerializeField] private float speedIncreasePerImpact = 1f;
+    [SerializeField] private float topLimit = 4f;
+    [SerializeField] private float bottomLimit = -4f;
+    [SerializeField] private float rightLimit = 9f;
+    [SerializeField] private float leftLimit = -9f;
+    [SerializeField] private float impactCooldown = 0.1f;
 
-    [SerializeField] private float  cooldownImpacto = -0.1f;
-
-    private float  ultimoImpacto = -10f;
-
-    private Vector2 direccion;
-    private float velocidadActual;
+    private Vector2 direction;
+    private float currentSpeed;
+    private float lastImpactTime = -10f;
     private Rigidbody2D rb;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        ResetearPelota();
+        ResetBall();
     }
 
-    void ResetearPelota()
+    void ResetBall()
     {
         transform.position = Vector3.zero;
-        velocidadActual = velocidadInicial;
+        currentSpeed = initialSpeed;
 
-        direccion.x = (Random.Range(0, 2) == 0) ? -1 : 1;
-        direccion.y = (Random.Range(0, 2) == 0) ? -1 : 1;
+        direction.x = (Random.Range(0, 2) == 0) ? -1 : 1;
+        direction.y = (Random.Range(0, 2) == 0) ? -1 : 1;
 
         rb.linearVelocity = Vector2.zero;
-        rb.AddForce(direccion.normalized * velocidadActual, ForceMode2D.Impulse);
+        rb.AddForce(direction.normalized * currentSpeed, ForceMode2D.Impulse);
     }
 
     void FixedUpdate()
     {
         // Aumenta la velocidad de a poco con el tiempo, sin cambiar la dirección //
-        velocidadActual += incrementoPorSegundo * Time.fixedDeltaTime;
-        rb.linearVelocity = rb.linearVelocity.normalized * velocidadActual;
+        currentSpeed += speedIncreasePerSecond * Time.fixedDeltaTime;
+        rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
 
-        if (transform.position.y >= limiteSuperior || transform.position.y <= limiteInferior)
+        if (transform.position.y >= topLimit || transform.position.y <= bottomLimit)
         {
             Vector2 v = rb.linearVelocity;
             v.y *= -1;
             rb.linearVelocity = v;
         }
 
-        if (transform.position.x >= 9 || transform.position.x <= -9)
+        if (transform.position.x >= rightLimit || transform.position.x <= leftLimit)
         {
-            ResetearPelota();
+            ResetBall();
         }
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Player") && Time.time - ultimoImpacto > cooldownImpacto)
+        // El cooldown evita contar el mismo pique varias veces //
+        if (other.gameObject.CompareTag("Player") && Time.time - lastImpactTime > impactCooldown)
         {
-            ultimoImpacto = Time.time;
-            velocidadActual += incrementoPorImpacto;
-            rb.linearVelocity = rb.linearVelocity.normalized * velocidadActual;
+            lastImpactTime = Time.time;
+            currentSpeed += speedIncreasePerImpact;
+            rb.linearVelocity = rb.linearVelocity.normalized * currentSpeed;
         }
-
     }
 }
